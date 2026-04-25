@@ -1,1 +1,22 @@
-{\n  "name": "whatsapp-auto-sender",\n  "version": "1.0.0",\n  "private": true,\n  "scripts": {\n    "dev": "next dev",\n    "build": "next build",\n    "start": "next start"\n  },\n  "dependencies": {\n    "next": "latest",\n    "react": "latest",\n    "react-dom": "latest",\n    "prisma": "latest",\n    "@prisma/client": "latest",\n    "next-auth": "latest",\n    "mongodb": "latest"\n  },\n  "devDependencies": {\n    "eslint": "latest",\n    "eslint-config-next": "latest",\n    "tailwindcss": "latest"\n  }\n}
+{ 
+  "name": "wahaut_sender",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "typescript": "latest",
+    "tailwindcss": "latest",
+    "prisma": "latest"
+  },
+  "devDependencies": {
+    "@types/react": "latest",
+    "@types/node": "latest"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  }
+}
