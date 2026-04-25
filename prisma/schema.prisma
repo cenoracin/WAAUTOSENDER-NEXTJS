@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  email     String     @unique
+  name      String?
+  password  String
+  phone     String?
+  role      String     @default("user")
+  isActive  Boolean    @default(true)
+  waConnected Boolean  @default(false)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  messages  Message[]
+  contacts  Contact[]
+  templates Template[]
+}
+
+model Contact {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String     @db.ObjectId
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  phone     String     @unique
+  email     String?
+  group     String?
+  isFavorite Boolean   @default(false)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  messages  Message[]
+
+  @@index([userId])
+}
+
+model Message {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String     @db.ObjectId
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contactId String     @db.ObjectId
+  contact   Contact    @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  content   String
+  status    String     @default("pending")
+  type      String     @default("text")
+  mediaUrl  String?
+  sentAt    DateTime?
+  deliveredAt DateTime?
+  readAt    DateTime?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([userId])
+  @@index([contactId])
+}
+
+model Template {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String     @db.ObjectId
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  content   String
+  variables String[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([userId])
+}
