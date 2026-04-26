@@ -1,0 +1,5 @@
+wa_sessions/
+node_modules
+.next
+.vscode
+.idea
