@@ -1,27 +1,22 @@
-FROM node:18-alpine AS builder
+FROM node:18-alpine
 
 WORKDIR /app
 
+# Install dependencies termasuk TypeScript dan type definitions
 COPY package*.json ./
 
 RUN npm install
 
 COPY . .
 
-RUN npx prisma generate && npm run build
+# Generate Prisma Client
+RUN npx prisma generate
 
-FROM node:18-alpine
+# Build Next.js
+RUN npm run build
 
-WORKDIR /app
-
-COPY package*.json ./
-
-RUN npm install --omit=dev
-
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=builder /app/prisma ./prisma
+# Remove dev dependencies untuk production
+RUN npm prune --production
 
 ENV NODE_ENV=production
 ENV PORT=3000
